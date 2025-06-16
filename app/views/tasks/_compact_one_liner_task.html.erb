@@ -1,5 +1,5 @@
 <article class="grid grid-cols-5 gap-4 my-2 p-4 border border-gray-200 rounded-lg">
-  <h3 class="col-span-2 text-lg font-semibold"><%= task.title %></h3>
+  <h3 class="col-span-2 text-lg font-semibold"><%= link_to task.title, task_list_task_path(task.task_list, task), class: "hover:text-blue-800 hover:underline" %></h3>
   <div class="col-span-1 flex items-center gap-4">
     <p><%= format_priority(task.priority) %></p>
     <p class="text-sm">Completed: <%= task.completed ? "✅" : "❌" %></p>

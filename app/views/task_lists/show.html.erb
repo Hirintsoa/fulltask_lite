@@ -9,11 +9,16 @@
   <section class="my-5">
     <div class="flex justify-between items-center">
       <h3 class="text-lg font-semibold mt-4 text-blue-700">Tasks</h3>
+      <%= render "task_lists/filter_form", task_list: @task_list %>
       <%= link_to "Add Task", new_task_list_task_path(@task_list), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
     </div>
 
     <div id="tasks-fields" class="space-y-4" data-task-fields-target="container">
-      <%= render partial: "tasks/compact_one_liner_task", collection: @task_list.tasks, as: :task %>
+      <% if @tasks.any? %>
+        <%= render partial: "tasks/compact_one_liner_task", collection: @tasks, as: :task %>
+      <% else %>
+        <p class="text-gray-500 text-center my-4">No tasks found</p>
+      <% end %>
     </div>
   </section>
 

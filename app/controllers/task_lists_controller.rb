@@ -8,6 +8,12 @@ class TaskListsController < ApplicationController
 
   # GET /task_lists/1 or /task_lists/1.json
   def show
+    @completed = filter_params[:completed]
+    @priority = filter_params[:priority]
+
+    @tasks = @task_list.tasks
+    @tasks = @tasks.where(completed: @completed) if @completed.present?
+    @tasks = @tasks.where(priority: @priority) if @priority.present?
   end
 
   # GET /task_lists/new
@@ -63,5 +69,9 @@ class TaskListsController < ApplicationController
 
     def task_list_params
       params.require(:task_list).permit(:title, :description, tasks_attributes: [:title, :description, :priority, :completed])
+    end
+
+    def filter_params
+      params.permit(:completed, :priority)
     end
 end

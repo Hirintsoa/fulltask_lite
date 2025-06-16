@@ -1,0 +1,13 @@
+<div class="flex items-center justify-between">
+  <%= form_with url: task_list_path(task_list), method: :get, class: "flex items-center gap-2" do |f| %>
+    <%= f.select :completed,
+      options_for_select([['All', nil], ['Completed', true], ['Incomplete', false]], selected: @completed.nil? ? nil : @completed),
+      {},
+      class: "border border-gray-400 focus:outline-blue-600 rounded-sm px-2 py-1" %>
+    <%= f.select :priority,
+      options_for_select([['All', nil], ['High', 'high'], ['Medium', 'medium'], ['Low', 'low']], selected: @priority),
+      {},
+      class: "border border-gray-400 focus:outline-blue-600 rounded-sm px-2 py-1" %>
+    <%= f.submit "Filter", class: "px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition" %>
+  <% end %>
+</div>
