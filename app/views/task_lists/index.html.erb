@@ -13,7 +13,7 @@
           <%= render task_list %>
           <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
             <%= link_to "Show", task_list, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= link_to "Edit", edit_task_list_path(task_list), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+            <%= link_to "Edit", edit_task_list_path(task_list), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-blue-300 hover:bg-blue-100 inline-block font-medium" %>
             <%= button_to "Destroy",
               task_list,
               method: :delete,
