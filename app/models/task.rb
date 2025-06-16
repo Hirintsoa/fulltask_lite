@@ -9,6 +9,10 @@ class Task < ApplicationRecord
 
   scope :incomplete, -> { where(completed: false) }
 
+  def toggle_completion
+    update(completed: !completed)
+  end
+
   private
 
   def normalize_title

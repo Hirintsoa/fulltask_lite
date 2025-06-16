@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   resources :task_lists, except: [:index] do
-    resources :tasks, except: [:index]
+    resources :tasks, except: [:index] do
+      member do
+        patch :toggle_completion
+      end
+    end
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

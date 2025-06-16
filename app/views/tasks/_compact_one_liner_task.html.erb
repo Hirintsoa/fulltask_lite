@@ -1,9 +1,16 @@
-<article class="grid grid-cols-4 gap-4 my-2 p-4 border border-gray-200 rounded-lg">
+<article class="grid grid-cols-5 gap-4 my-2 p-4 border border-gray-200 rounded-lg">
   <h3 class="col-span-2 text-lg font-semibold"><%= task.title %></h3>
   <div class="col-span-1 flex items-center gap-4">
     <p><%= format_priority(task.priority) %></p>
     <p class="text-sm">Completed: <%= task.completed ? "✅" : "❌" %></p>
   </div>
+
+  <div class="col-span-1 flex justify-end items-center gap-4">
+    <%= button_to toggle_completion_task_list_task_path(task.task_list, task), method: :patch, class: "px-2 py-1 border rounded #{task.completed? ? 'border-amber-900 text-amber-900' : 'border-emerald-900 text-emerald-900'}" do %>
+      Set as <%= task.completed? ? 'incomplete' : 'complete' %>
+    <% end %>
+  </div>
+
   <div class="col-span-1 flex justify-end items-center gap-4">
     <%= link_to "Edit", edit_task_list_task_path(task.task_list, task), class: "text-blue-500" %>
     <%= link_to "Delete", task_list_task_path(task.task_list, task), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-red-500" %>

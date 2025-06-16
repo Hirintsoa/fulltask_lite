@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: %i[ show edit update destroy ]
+  before_action :set_task, only: %i[ show edit update destroy toggle_completion ]
   before_action :set_task_list, only: %i[ new edit create update ]
 
   # GET /tasks or /tasks.json
@@ -45,6 +45,14 @@ class TasksController < ApplicationController
     @task.destroy!
 
     redirect_to task_list_path(@task.task_list), status: :see_other, notice: "Task was successfully destroyed."
+  end
+
+  def toggle_completion
+    if @task.toggle_completion
+      redirect_to task_list_path(@task.task_list), notice: "Task was successfully #{@task.completed? ? 'completed' : 'uncompleted'}."
+    else
+      redirect_to task_list_path(@task.task_list), alert: "Task was not #{@task.completed? ? 'completed' : 'uncompleted'}."
+    end
   end
 
   private
