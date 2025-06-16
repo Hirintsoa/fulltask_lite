@@ -5,44 +5,39 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
     @task = tasks(:one)
   end
 
-  test "should get index" do
-    get tasks_url
-    assert_response :success
-  end
-
   test "should get new" do
-    get new_task_url
+    get new_task_list_task_url(@task.task_list)
     assert_response :success
   end
 
   test "should create task" do
     assert_difference("Task.count") do
-      post tasks_url, params: { task: { completed: @task.completed, description: @task.description, priority: @task.priority, task_list_id: @task.task_list_id, title: @task.title } }
+      post task_list_tasks_url(@task.task_list), params: { task: { completed: @task.completed, description: @task.description, priority: @task.priority, task_list_id: @task.task_list_id, title: @task.title } }
     end
 
-    assert_redirected_to task_url(Task.last)
+    assert_redirected_to task_list_url(@task.task_list)
   end
 
   test "should show task" do
-    get task_url(@task)
+    get task_list_task_url(@task.task_list, @task)
     assert_response :success
   end
 
   test "should get edit" do
-    get edit_task_url(@task)
+    get edit_task_list_task_url(@task.task_list, @task)
     assert_response :success
   end
 
   test "should update task" do
-    patch task_url(@task), params: { task: { completed: @task.completed, description: @task.description, priority: @task.priority, task_list_id: @task.task_list_id, title: @task.title } }
-    assert_redirected_to task_url(@task)
+    patch task_list_task_url(@task.task_list, @task), params: { task: { completed: @task.completed, description: @task.description, priority: @task.priority, task_list_id: @task.task_list_id, title: "#{@task.title}-updated" } }
+    assert_redirected_to task_list_url(@task.task_list)
   end
 
   test "should destroy task" do
     assert_difference("Task.count", -1) do
-      delete task_url(@task)
+      delete task_list_task_url(@task.task_list, @task)
     end
 
-    assert_redirected_to tasks_url
+    assert_redirected_to task_list_url(@task.task_list)
   end
 end

@@ -6,7 +6,7 @@ class TaskListsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get task_lists_url
+    get root_url
     assert_response :success
   end
 
@@ -34,15 +34,16 @@ class TaskListsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update task_list" do
-    patch task_list_url(@task_list), params: { task_list: { description: @task_list.description, title: @task_list.title } }
+    patch task_list_url(@task_list), params: { task_list: { description: @task_list.description, title: "#{@task_list.title}-updated" } }
     assert_redirected_to task_list_url(@task_list)
   end
 
   test "should destroy task_list" do
     assert_difference("TaskList.count", -1) do
+      patch task_list_task_url(@task_list, @task_list.tasks.first), params: { task: { completed: true } }
       delete task_list_url(@task_list)
     end
 
-    assert_redirected_to task_lists_url
+    assert_redirected_to root_url
   end
 end

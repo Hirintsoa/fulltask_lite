@@ -1,14 +1,14 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
+  title: MyString-1
   description: MyText
   completed: false
   priority: 1
   task_list: one
 
 two:
-  title: MyString
+  title: MyString-2
   description: MyText
   completed: false
   priority: 1
