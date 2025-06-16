@@ -18,8 +18,9 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="relative">
+    <%= render "shared/flash_messages" %>
+    <main class="container mx-auto my-4 px-5 flex">
       <%= yield %>
     </main>
   </body>
