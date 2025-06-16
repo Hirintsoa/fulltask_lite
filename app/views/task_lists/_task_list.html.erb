@@ -1,10 +1,23 @@
-<div id="<%= dom_id task_list %>" class="w-full sm:w-auto my-5 space-y-5">
-  <div class="flex justify-between items-center">
+<div id="<%= dom_id task_list %>" class="w-full sm:w-auto grid grid-cols-6 gap-5 my-5">
+  <div class="col-span-2">
     <h2 class="font-bold text-2xl"><%= link_to task_list.title, task_list, class: "hover:text-blue-800 hover:underline" %></h2>
+    <p class="text-sm text-gray-500"><%= task_list.description.blank? ? "N/A" : task_list.description.truncate(50) %></p>
   </div>
 
-  <div>
-    <strong class="block font-medium mb-1">Description:</strong>
-    <%= task_list.description %>
+  <div class="col-span-2 flex justify-center items-center">
+    <%= render partial: "shared/completion_progress_bar", locals: { task_list: task_list } %>
+  </div>
+
+  <div></div>
+
+  <div class="w-full sm:w-auto flex flex-col items-end sm:flex-row gap-2">
+    <%= link_to "Show", task_list, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+    <%= link_to "Edit", edit_task_list_path(task_list), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-blue-300 hover:bg-blue-100 inline-block font-medium" %>
+    <%= button_to "Destroy",
+      task_list,
+      method: :delete,
+      disabled: task_list.tasks.incomplete.exists?,
+      class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 disabled:opacity-50 disabled:cursor-not-allowed font-medium cursor-pointer",
+      data: { turbo_confirm: "Are you sure?" } %>
   </div>
 </div>

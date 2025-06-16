@@ -7,6 +7,7 @@ class Task < ApplicationRecord
 
   before_validation :normalize_title
 
+  scope :completed, -> { where(completed: true) }
   scope :incomplete, -> { where(completed: false) }
 
   def toggle_completion

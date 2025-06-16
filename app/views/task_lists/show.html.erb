@@ -1,7 +1,10 @@
 <% content_for :title, "Showing task list" %>
 
 <div class="md:w-2/3 w-full">
-  <%= render @task_list %>
+  <div class="flex justify-between items-center">
+    <h1 class="font-bold text-4xl"><%= @task_list.title %></h1>
+    <span class="text-sm text-gray-500"><%= task_list_completion_status(@task_list) %></span>
+  </div>
 
   <section class="my-5">
     <div class="flex justify-between items-center">

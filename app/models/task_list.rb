@@ -5,6 +5,12 @@ class TaskList < ApplicationRecord
   validates :title, presence: true, uniqueness: true, length: { minimum: 3 }
   before_validation :normalize_title
 
+  def percent_complete
+    return 0 if tasks.count.zero?
+
+    tasks.completed.count / tasks.count.to_f * 100
+  end
+
   private
 
   def normalize_title
