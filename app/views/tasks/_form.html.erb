@@ -1,4 +1,4 @@
-<%= form_with(model: task, class: "contents") do |form| %>
+<%= form_with(model: [task_list, task], class: "contents") do |form| %>
   <% if task.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
       <h2><%= pluralize(task.errors.count, "error") %> prohibited this task from being saved:</h2>
@@ -28,12 +28,7 @@
 
   <div class="my-5">
     <%= form.label :priority %>
-    <%= form.number_field :priority, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": task.errors[:priority].none?, "border-red-400 focus:outline-red-600": task.errors[:priority].any?}] %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :task_list_id %>
-    <%= form.text_field :task_list_id, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": task.errors[:task_list_id].none?, "border-red-400 focus:outline-red-600": task.errors[:task_list_id].any?}] %>
+    <%= form.select :priority, Task.priorities.keys.map { |key| [key.humanize, key] }, {}, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-1/3", {"border-gray-400 focus:outline-blue-600": task.errors[:priority].none?, "border-red-400 focus:outline-red-600": task.errors[:priority].any?}] %>
   </div>
 
   <div class="inline">
