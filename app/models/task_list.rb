@@ -1,8 +1,8 @@
 class TaskList < ApplicationRecord
   has_many :tasks, dependent: :destroy
-  accepts_nested_attributes_for :tasks
+  accepts_nested_attributes_for :tasks, reject_if: ->(attributes) { attributes['title'].blank? && attributes['description'].blank? }
 
-  validates :title, presence: true, uniqueness: true
+  validates :title, presence: true, uniqueness: true, length: { minimum: 3 }
   before_validation :normalize_title
 
   private

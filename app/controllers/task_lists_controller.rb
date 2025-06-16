@@ -13,6 +13,7 @@ class TaskListsController < ApplicationController
   # GET /task_lists/new
   def new
     @task_list = TaskList.new
+    @task_list.tasks.build
   end
 
   # GET /task_lists/1/edit
@@ -23,48 +24,39 @@ class TaskListsController < ApplicationController
   def create
     @task_list = TaskList.new(task_list_params)
 
-    respond_to do |format|
-      if @task_list.save
-        format.html { redirect_to @task_list, notice: "Task list was successfully created." }
-        format.json { render :show, status: :created, location: @task_list }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @task_list.errors, status: :unprocessable_entity }
-      end
+    if @task_list.save
+      redirect_to @task_list, notice: "Task list was successfully created."
+    else
+      @task_list.tasks.build
+      render :new, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /task_lists/1 or /task_lists/1.json
   def update
-    respond_to do |format|
-      if @task_list.update(task_list_params)
-        format.html { redirect_to @task_list, notice: "Task list was successfully updated." }
-        format.json { render :show, status: :ok, location: @task_list }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @task_list.errors, status: :unprocessable_entity }
-      end
+    if @task_list.update(task_list_params)
+      redirect_to @task_list, notice: "Task list was successfully updated."
+    else
+      @task_list.tasks.build
+      render :edit, status: :unprocessable_entity
     end
   end
 
   # DELETE /task_lists/1 or /task_lists/1.json
   def destroy
-    @task_list.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to task_lists_path, status: :see_other, notice: "Task list was successfully destroyed." }
-      format.json { head :no_content }
+    if @task_list.destroy
+      redirect_to root_path, status: :see_other, notice: "Task list was successfully deleted."
+    else
+      redirect_to task_list_path(@task_list), status: :server_error, alert: "Task list deletion failed."
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_task_list
       @task_list = TaskList.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def task_list_params
-      params.require(:task_list).permit(:title, :description)
+      params.require(:task_list).permit(:title, :description, tasks_attributes: [:title, :description, :priority, :completed])
     end
 end

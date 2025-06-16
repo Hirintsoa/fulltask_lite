@@ -3,7 +3,7 @@ class Task < ApplicationRecord
 
   attribute :completed, :boolean, default: false
   enum :priority, [ :low, :medium, :high ], default: :low, validate: true
-  validates :title, presence: true, uniqueness: { scope: :task_list_id }
+  validates :title, presence: true, uniqueness: { scope: :task_list_id }, length: { minimum: 3 }
 
   before_validation :normalize_title
 
