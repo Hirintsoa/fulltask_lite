@@ -44,6 +44,11 @@ class TaskListsController < ApplicationController
 
   # DELETE /task_lists/1 or /task_lists/1.json
   def destroy
+    if @task_list.tasks.incomplete.exists?
+      redirect_to task_list_path(@task_list), alert: "Task list cannot be deleted because it has incomplete tasks."
+      return
+    end
+
     if @task_list.destroy
       redirect_to root_path, status: :see_other, notice: "Task list was successfully deleted."
     else
