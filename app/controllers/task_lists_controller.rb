@@ -64,7 +64,7 @@ class TaskListsController < ApplicationController
 
   private
     def set_task_list
-      @task_list = TaskList.find(params[:id])
+      @task_list = TaskList.includes(:tasks).find(params[:id])
     end
 
     def task_list_params

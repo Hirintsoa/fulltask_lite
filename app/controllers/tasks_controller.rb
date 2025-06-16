@@ -58,7 +58,7 @@ class TasksController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_task
-      @task = Task.find(params[:id])
+      @task = Task.includes(:task_list).find(params[:id])
     end
 
     def set_task_list
