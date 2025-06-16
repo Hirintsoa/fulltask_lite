@@ -1,19 +1,19 @@
 <% content_for :title, "Showing task list" %>
 
-<div class="md:w-2/3 w-full">
+<div class="md:w-2/3 w-full mx-auto">
   <div class="flex justify-between items-center">
     <h1 class="font-bold text-4xl"><%= @task_list.title %></h1>
     <span class="text-sm text-gray-500"><%= task_list_completion_status(@task_list) %></span>
   </div>
 
-  <section class="my-5">
+  <section class="my-10">
     <div class="flex justify-between items-center">
       <h3 class="text-lg font-semibold mt-4 text-blue-700">Tasks</h3>
       <%= render "task_lists/filter_form", task_list: @task_list %>
       <%= link_to "Add Task", new_task_list_task_path(@task_list), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
     </div>
 
-    <div id="tasks-fields" class="space-y-4" data-task-fields-target="container">
+    <div id="tasks-fields" class="space-y-4">
       <% if @tasks.any? %>
         <%= render partial: "tasks/compact_one_liner_task", collection: @tasks, as: :task %>
       <% else %>
@@ -22,7 +22,7 @@
     </div>
   </section>
 
-  <div class="flex justify-end items-center gap-2 mt-4">
+  <div class="flex justify-end items-center gap-2 mt-10">
     <%= link_to "Edit this task list", edit_task_list_path(@task_list), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-blue-300 hover:bg-blue-100 inline-block font-medium" %>
     <%= link_to "Back to task lists", root_path, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
     <%= button_to "Destroy this task list",
