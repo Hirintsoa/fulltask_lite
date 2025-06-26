@@ -25,11 +25,22 @@
   <div class="flex justify-end items-center gap-2 mt-10">
     <%= link_to "Edit this task list", edit_task_list_path(@task_list), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-blue-300 hover:bg-blue-100 inline-block font-medium" %>
     <%= link_to "Back to task lists", root_path, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-    <%= button_to "Destroy this task list",
-      @task_list,
-      method: :delete,
-      disabled: @task_list.tasks.incomplete.exists?,
-      class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 disabled:opacity-50 disabled:cursor-not-allowed font-medium cursor-pointer",
-      data: { turbo_confirm: "Are you sure?" } %>
+    
+    <div class="relative group flex items-center">
+      <% incomplete_tasks = @task_list.tasks.incomplete %>
+      <%= incomplete_tasks.exists? ?
+        content_tag(:div, "Destroy", class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-white bg-red-600 font-medium cursor-not-allowed opacity-50 text-center select-none") :
+        button_to("Destroy", @task_list, method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" })
+      %>
+      <% if incomplete_tasks.exists? %>
+        <div
+          class="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max p-2 text-sm text-white bg-gray-700 rounded shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none z-10 whitespace-nowrap"
+        >
+          <%= "Cannot delete. #{pluralize(incomplete_tasks.count, 'task')} #{incomplete_tasks.count > 1 ? 'are' : 'is'} still incomplete." %>
+          <!-- Tooltip arrow pointing up -->
+          <div class="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-b-4 border-l-transparent border-r-transparent border-b-gray-700"></div>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
