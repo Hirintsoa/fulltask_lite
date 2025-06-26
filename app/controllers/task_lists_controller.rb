@@ -19,7 +19,8 @@ class TaskListsController < ApplicationController
   # GET /task_lists/new
   def new
     @task_list = TaskList.new
-    @task_list.tasks.build
+    # Build 5 task fields by default (all hidden initially)
+    5.times { @task_list.tasks.build }
   end
 
   # GET /task_lists/1/edit
@@ -33,7 +34,9 @@ class TaskListsController < ApplicationController
     if @task_list.save
       redirect_to @task_list, notice: "Task list was successfully created."
     else
-      @task_list.tasks.build
+      # Ensure we have 5 task fields for re-rendering the form
+      current_task_count = @task_list.tasks.size
+      (5 - current_task_count).times { @task_list.tasks.build } if current_task_count < 5
       render :new, status: :unprocessable_entity
     end
   end

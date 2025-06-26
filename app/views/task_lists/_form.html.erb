@@ -25,28 +25,24 @@
   </div>
 
   <% unless @task_list.persisted? %>
-    <h3 class="text-lg font-semibold mt-4 text-blue-700">First Task (Optional)</h3>
+    <div data-controller="nested-tasks" data-nested-tasks-max-tasks-value="5" data-nested-tasks-current-count-value="0">
+      <div class="flex items-center justify-between mt-6 mb-4">
+        <h3 class="text-lg font-semibold text-blue-700">
+          Tasks (<span data-nested-tasks-target="counter">0</span>/5)
+        </h3>
+        <button type="button" 
+                data-nested-tasks-target="addButton"
+                data-action="click->nested-tasks#addTask"
+                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+          + Add Task
+        </button>
+      </div>
 
-    <div class="space-y-4">
+      <div data-nested-tasks-target="container" class="space-y-4">
       <%= form.fields_for :tasks do |task_fields| %>
-        <div class="mb-2 task-fields bg-blue-50 rounded-lg p-4">
-          <%= task_fields.label :title, "Title", class: "block font-medium mb-1 text-gray-700" %>
-          <%= task_fields.text_field :title, required: false, minlength: 3, maxlength: 100, class: "w-full border border-gray-200 rounded-lg px-3 py-1 bg-gray-50" %>
-          <% if task_fields.object.errors[:title].any? %>
-            <div class="text-red-600 text-sm mt-1"><%= task_fields.object.errors[:title].join(', ') %></div>
-          <% end %>
-          <%= task_fields.label :description, "Description", class: "block font-medium mb-1 mt-2 text-gray-700" %>
-          <%= task_fields.text_area :description, class: "w-full border border-gray-200 rounded-lg px-3 py-1 bg-gray-50" %>
-          <% if task_fields.object.errors[:description].any? %>
-            <div class="text-red-600 text-sm mt-1"><%= task_fields.object.errors[:description].join(', ') %></div>
-          <% end %>
-          <%= task_fields.label :priority, "Priority", class: "block font-medium mb-1 mt-2 text-gray-700" %>
-          <%= task_fields.select :priority, options_for_select(task_priority_options, task_fields.object.priority_before_type_cast), {}, class: "w-2/3 border border-gray-200 rounded-lg px-3 py-1 bg-gray-50" %>
-          <% if task_fields.object.errors[:priority].any? %>
-            <div class="text-red-600 text-sm mt-1"><%= task_fields.object.errors[:priority].join(', ') %></div>
+          <%= render 'task_field', task_fields: task_fields, index: task_fields.index %>
           <% end %>
         </div>
-      <% end %>
     </div>
   <% end %>
 
